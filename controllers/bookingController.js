@@ -2,6 +2,16 @@ const Room = require("../models/roomModel.js");
 const Hotel = require("../models/hotelModel.js");
 const Booking = require("../models/bookingModel.js");
 
+const checkCache = (req, res, next) => {
+  const cacheKey = req.originalUrl;
+  const cachedData = cache.get(cacheKey);
+  if (cachedData) {
+    res.json(cachedData);
+  } else {
+    next();
+  }
+};
+
 const createRoom = async (req, res, next) => {
   const hotelId = req.params.hotelid;
   const newRoom = new Room(req.body);
@@ -134,6 +144,7 @@ const getAvailability = async (req, res, next) => {
     const roomId = req.params.id;
     const room = await Room.findById(roomId).populate('bookings');
     const availability = calculateAvailability(room);
+    cache.set(req.originalUrl, availability);
     res.status(200).json(availability);
   } catch (err) {
     next(err);
@@ -152,5 +163,6 @@ module.exports = {
   updateBooking,
   cancelBooking,
   getAvailability,
-  calculateAvailability
+  calculateAvailability,
+  checkCache
 };
