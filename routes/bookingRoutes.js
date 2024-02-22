@@ -1,4 +1,3 @@
-const express = require('express');
 const {
   createRoom,
   deleteRoom,
@@ -6,23 +5,35 @@ const {
   getRooms,
   updateRoom,
   updateRoomAvailability,
+  createBooking,
+  updateBooking,
+  cancelBooking,
+  getAvailability
 } = require( "../controllers/bookingController");
 const { verifyAdmin } = require( "../utils/verifyToken.js");
 
-const router = express.Router();
-//CREATE
-router.post("/:hotelid", verifyAdmin, createRoom);
+const router = require("express").Router();
 
-//UPDATE
-router.put("/availability/:id", updateRoomAvailability);
-router.put("/:id", verifyAdmin, updateRoom);
-//DELETE
-router.delete("/:id/:hotelid", verifyAdmin, deleteRoom);
-//GET
+// CREATE
+router.post("/:hotelid/room", verifyAdmin, createRoom);
 
-router.get("/:id", getRoom);
-//GET ALL
+// UPDATE
+router.put("/room/availability/:id", verifyAdmin, updateRoomAvailability);
+router.put("/room/:id", verifyAdmin, updateRoom);
 
-router.get("/", getRooms);
+// DELETE
+router.delete("/room/:id/:hotelid", verifyAdmin, deleteRoom);
+
+// GET
+router.get("/room/:id", getRoom);
+
+// GET ALL
+router.get("/room", getRooms);
+
+// BOOKINGS
+router.post("/bookingroom", createBooking);
+router.put("/bookingroom/:id", updateBooking);
+router.delete("/bookingroom/:id", cancelBooking);
+router.get("/bookingroom/:id", getAvailability);
 
 module.exports = router;

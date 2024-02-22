@@ -71,15 +71,7 @@ exports.verifyUser = async (req, res, next) => {
 
 
 module.exports.verifyAdmin = (req, res, next) => {
-  // verifyToken(req, res, next, () => {
-  //   if (req.user.isAdmin) {
-  //     next();
-  //   } else {
-  //     return next(createError(403, "You are not authorized!"));
-  //   }
-  // });
-
-  const user = req.user; // Assuming the user object is attached to the request
+  const user = req.body.user; // Assuming the user object is attached to the request
 
     if (!user.isAdmin) {
         return res.status(403).json({ message: 'Admin access required' });

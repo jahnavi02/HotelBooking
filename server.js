@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const authRoute = require("./routes/authRoutes.js");
 const usersRoute = require("./routes/userRoutes.js");
 const hotelsRoute = require("./routes/hotelRoutes.js");
-const roomsRoute = require("./routes/bookingRoutes");
+const roomsRoute = require("./routes/bookingRoutes.js");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
@@ -27,10 +27,10 @@ app.use(cors())
 app.use(cookieParser())
 app.use(express.json());
 
-app.use("/api", authRoute);  //works good
-app.use("/api", usersRoute);  //works good
-app.use("/api", hotelsRoute);
-app.use("/api", roomsRoute); 
+app.use("/api/auth", authRoute);  //works good
+app.use("/api/user", usersRoute);  //works good
+app.use("/api/hotel", hotelsRoute);
+app.use("/api/room", roomsRoute); 
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

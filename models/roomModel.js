@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const RoomSchema = new mongoose.Schema(
   {
+    hotel: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Hotel',
+      required: true
+    },
     title: {
       type: String,
       required: true,
@@ -18,6 +23,10 @@ const RoomSchema = new mongoose.Schema(
       required: true,
     },
     roomNumbers: [{ number: Number, unavailableDates: {type: [Date]}}],
+    bookings: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Booking'
+    }],
   },
   { timestamps: true }
 );
